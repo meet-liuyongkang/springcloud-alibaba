@@ -1,0 +1,5 @@
+# 项目排除路径
+/shop-common/target/
+/shop-order/target/
+/shop-product/target/
+/shop-user/target/
