@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 /**
  * @author liuyongkang
  * @date Create in 2022/10/11 16:20
+ *
+ * feign整合sentinel实现容错降级
  */
 @Component
 @Slf4j

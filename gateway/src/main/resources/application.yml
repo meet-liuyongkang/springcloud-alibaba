@@ -1,0 +1,32 @@
+server:
+  port: 7001
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #从nacos获取服务信息列表
+          enabled: true
+      # 配置路由，是一个数组，可以配置多个路由
+      routes:
+        - id: product_route #当前路由的唯一标识
+          uri: lb://product-service  #请求转发到那个服务器
+          order: 1  #路由的优先级，数字越小，优先级越高
+          predicates: #断言，也就是满足转发的条件
+            - Path=/product-api/** #请求路径满足当前path规则时，才会被转发
+            - Age=20,30 #自定义断言
+          filters: #过滤器，可以在请求转发之前，对请求进行一定的修改
+            - StripPrefix=1 #转发前去掉一层路径
+            - Logger=true,false #自定义过滤器
+        - id: order_route
+          uri: lb://order-service
+          order: 1
+          predicates:
+            - Path=/order-api/**
+          filters:
+            - StripPrefix=1
+    nacos:
+      discovery:
+        server-addr: 192.168.99.201:8848
